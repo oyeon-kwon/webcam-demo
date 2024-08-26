@@ -1,0 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useZxing } from "react-zxing";
+
+export const BarcodeScanner = () => {
+  const [result, setResult] = useState("");
+  const { ref } = useZxing({
+    onDecodeResult(result) {
+      setResult(result.getText());
+    },
+  });
+
+  useEffect(() => {
+    if (result) {
+      window.location.href = result;
+    }
+  }, [result]);
+
+  return (
+    <>
+      <video ref={ref} />
+      <p>
+        <span>Last result:</span>
+        <span>{result}</span>
+      </p>
+    </>
+  );
+};
